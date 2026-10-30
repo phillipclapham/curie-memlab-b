@@ -23,5 +23,25 @@ class SlugifyTest(unittest.TestCase):
         self.assertEqual(slugify("Hello World", sep="_"), "hello_world")
 
 
+class SlugifyMaxLengthTest(unittest.TestCase):
+    def test_slug_that_fits_is_unchanged(self):
+        self.assertEqual(slugify("hello world", max_length=20), "hello-world")
+
+    def test_cut_at_last_separator_that_fits(self):
+        self.assertEqual(slugify("the quick brown fox", max_length=12), "the-quick")
+
+    def test_single_word_cut_at_limit(self):
+        self.assertEqual(slugify("extraordinary", max_length=5), "extra")
+
+    def test_cut_slug_never_ends_in_separator(self):
+        self.assertEqual(slugify("ab cd", max_length=3), "ab")
+
+    def test_max_length_below_one_is_refused(self):
+        with self.assertRaises(SlugError):
+            slugify("hello", max_length=0)
+        with self.assertRaises(SlugError):
+            slugify("hello", max_length=-3)
+
+
 if __name__ == "__main__":
     unittest.main()
