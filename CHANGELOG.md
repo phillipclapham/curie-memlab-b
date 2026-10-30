@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- Add `slug_from_email`, which turns the local part of an email address into a slug.
 - Add `SlugError`, the library's own error type (a `ValueError` subclass).
 
 ## 0.1.0
